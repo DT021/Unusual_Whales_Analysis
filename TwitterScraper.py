@@ -1,8 +1,10 @@
 from datetime import time
+import Analysis
 import re
 import tweepy
 
-class twitterscaper:
+
+class TwitterScraper:
     def __init__(self, file_name):
         f = open(file_name)
         lines = f.read()
@@ -24,10 +26,7 @@ class twitterscaper:
             for tweet in api.user_timeline(id=username, count=count):
             # Adding to list that contains all tweets
                 tweets.append((tweet.created_at,tweet.text))
+
         except BaseException as e:
             print('failed on_status,', str(e))
         return tweets
-
-if __name__ == '__main__':
-    t = twitterscaper("/home/tpiggo/python-workspace/ImportantFiles/keys")
-    print(t.get_tweets_from_user('unusual_whales', 5))
