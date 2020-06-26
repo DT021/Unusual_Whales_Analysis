@@ -1,7 +1,9 @@
-import Analysis
-from TwitterScraper import TwitterScraper
-from UnusualWhales import UnusualWhales
+from data.scraping.twitter.scraper import TwitterScraper
+
+
+def main():
+    twitter_scraper = TwitterScraper('/home/paul/personal-repos/.personal-info/keys.yek', '@unusual_whales')
+    twitter_scraper.get_tweets_from_user(5)
 
 if __name__ == "__main__":
-    UW = UnusualWhales("C:/Users/User/Downloads/keys")
-    UW.create_data()
+    main()
