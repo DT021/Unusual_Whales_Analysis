@@ -3,10 +3,12 @@ import tweepy
 import importlib
 from typing import Optional
 
+from data.parsing import tweet_parser
 from data.parsing import parser_associations
 
 
 PARSER_PATH = 'data.parsing.'
+
 
 class TwitterScraper:
 
@@ -18,7 +20,7 @@ class TwitterScraper:
         self._access_token_secret = None
         self._auth = None
         self._account = None
-        self._parser = None  # type: Optional[tweet_parser.TweetParser]
+        self._parser: Optional[tweet_parser.TweetParser] = None
 
         self._load_config(file_name)
 
