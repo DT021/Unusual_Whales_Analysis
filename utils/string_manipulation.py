@@ -12,4 +12,4 @@ def de_emojify(text):
 
 
 def remove_empty_entries(list_with_empties: list):
-    return [entry for entry in list_with_empties if entry not in [' ', '']]
+    return [entry for entry in list_with_empties if entry not in [' ', '','️ ','️']]

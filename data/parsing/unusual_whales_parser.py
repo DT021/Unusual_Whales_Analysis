@@ -16,6 +16,15 @@ class UnusualWhalesParser(TweetParser):
         elif tweet is not None:
             self.parse_tweets(tweet)
 
+    def validate_tweet(self, tweet_text):
+        # validates the tweets have the valid format for use
+        matcher_emoji = ".+\n\$[A-Z]+\s[0-9-]+\s[CP]\s\$[0-9.]+\n\n.+"
+        matcher_no_emoji = "\$[A-Z]+\s[0-9-]+\s[CP]\s\$[0-9.]+\n\n.+"
+        return bool(re.match(matcher_emoji, tweet_text)) or bool(re.match(matcher_no_emoji, tweet_text))
+
+    def get_parsed_tweets(self):
+        return self._parsed_tweets
+
     def parse_tweets(self, tweets: list):
         # wraps parse_tweet function to allow one call to UnusualWhalesParser
         for tweet_text in tweets:
@@ -24,7 +33,8 @@ class UnusualWhalesParser(TweetParser):
     def parse_tweet(self, tweet_text: str):
         # single class can parse any tweet by @unusual_whales
         # every time a new tweet is parsed it's just added to the end of the dict
-        self._parsed_tweets[len(self._parsed_tweets.keys())] = self._create_dict_from_str(tweet_text)
+        if (self.validate_tweet(tweet_text)):
+            self._parsed_tweets[len(self._parsed_tweets.keys())] = self._create_dict_from_str(tweet_text)
 
     @staticmethod
     def _create_dict_from_str(tweet_text: str):
