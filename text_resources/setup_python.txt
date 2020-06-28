@@ -1,0 +1,28 @@
+downloaded and installed python3.8.3 from here:
+    https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
+    got an error from zlib, followed this answer and tried the `sudo make altinstall`: https://askubuntu.com/a/1139553
+
+removed /usr/bin/python3.8 by changing name to /usr/bin/python3.8-old
+
+created symbolic link:
+    sudo ln -s ~/Python-3.8.3/python python3.8
+
+python3.8 --version now shows python3.8.3
+
+created new virtualenv:
+    virtualenv --python=/usr/bin/python3.8 ~/virtualenvs/trade-analysis
+
+upgraded pip:
+    ~/virtualenvs/trade-analysis/bin/python -m pip install --upgrade pip
+
+to activate environment in order to have environment before prompt:
+    source ~/virtualenvs/trade-analysis/bin/activate
+
+PIP INSTALLATIONS:
+
+pip install tweepy
+pip install flask
+pip install python-dotenv
+pip install flask_sqlalchemy
+pip install config
+pip install psycopg2-binary
