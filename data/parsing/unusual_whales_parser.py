@@ -27,17 +27,17 @@ class UnusualWhalesParser(TweetParser):
 
     def parse_tweets(self, tweets: list):
         # wraps parse_tweet function to allow one call to UnusualWhalesParser
-        for tweet_text in tweets:
-            self.parse_tweet(tweet_text)
+        for tweet in tweets:
+            self.parse_tweet(*tweet)
 
-    def parse_tweet(self, tweet_text: str):
+    def parse_tweet(self, user_id, tweet_id, tweet_text: str):
         # single class can parse any tweet by @unusual_whales
         # every time a new tweet is parsed it's just added to the end of the dict
         if (self.validate_tweet(tweet_text)):
-            self._parsed_tweets[len(self._parsed_tweets.keys())] = self._create_dict_from_str(tweet_text)
+            self._parsed_tweets[len(self._parsed_tweets.keys())] = self._create_dict_from_str(user_id, tweet_id, tweet_text)
 
     @staticmethod
-    def _create_dict_from_str(tweet_text: str):
+    def _create_dict_from_str(tweet_time, tweet_id, tweet_text: str):
         tweet_lines = remove_empty_entries(re.split('\n', de_emojify(tweet_text)))
         print(tweet_lines)
         # dictionary for the symbol retrieved in the unusual flow call out
@@ -59,11 +59,16 @@ class UnusualWhalesParser(TweetParser):
                     symbol_dict[dict_name] = new_entry[j]
                 continue
             new_entry = re.split(": ", tweet_lines[i])
-            if new_entry[1].__contains__('$'):
+
+            if len(new_entry) > 1 and '$' in new_entry[1]:
                 new_entry[1] = new_entry[1].replace('$', '')
-            elif new_entry[1].__contains__('%'):
+            elif len(new_entry) > 1 and '%' in new_entry[1]:
                 new_entry[1] = new_entry[1].replace('%', '')
-            symbol_dict[new_entry[0]] = float(new_entry[1])
-        return symbol_dict
 
-
+            if len(new_entry) > 1:
+                symbol_dict[new_entry[0]] = float(new_entry[1])
+        return {
+            'tweet_time': tweet_time,
+            'twitter_id': tweet_id,
+            **symbol_dict
+        }

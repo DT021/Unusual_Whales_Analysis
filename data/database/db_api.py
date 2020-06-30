@@ -35,6 +35,13 @@ class DatabaseConnection:
         self._result = self._cur.fetchall()
         return self._result
 
+    def insert(self, sql_query, params=()):
+        self._cur.execute(sql_query, params)
+        self.commit()
+
+    def commit(self):
+        self._conn.commit()
+
     def get_last_result(self):
         return self._result
 
